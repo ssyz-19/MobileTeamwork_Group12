@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">PKUHospital</string>
+
+    <string name="tab_menu_choose">挂号预约</string>
+    <string name="tab_menu_history">挂号记录</string>
+    <string name="tab_menu_patient_info">就诊人记录</string>
+    <string name="tab_menu_personal_center">个人中心</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

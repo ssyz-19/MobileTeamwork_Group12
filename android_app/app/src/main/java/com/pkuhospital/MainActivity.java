@@ -1,14 +1,123 @@
 package com.pkuhospital;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.pkuhospital.Fragment.MyFragment;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    //UI Object
+    private TextView txt_topbar;
+    private TextView txt_appointment;
+    private TextView txt_record;
+    private TextView txt_info;
+    private TextView txt_center;
+    private FrameLayout ly_content;
+
+    //Fragment Object
+    private MyFragment fgAppointment,fgRecord,fgPatientInfo,fgPerCenter;
+    private FragmentManager fManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        fManager = getSupportFragmentManager();
+        bindViews();
+        txt_appointment.performClick();   //模拟一次点击，既进去后选择第一项
+    }
+
+    //UI组件初始化与事件绑定
+    private void bindViews() {
+        txt_topbar = (TextView) findViewById(R.id.txt_topbar);
+        txt_appointment = (TextView) findViewById(R.id.txt_appointment);
+        txt_record = (TextView) findViewById(R.id.txt_record);
+        txt_info = (TextView) findViewById(R.id.txt_info);
+        txt_center = (TextView) findViewById(R.id.txt_center);
+        ly_content = (FrameLayout) findViewById(R.id.ly_content);
+
+        txt_appointment.setOnClickListener(this);
+        txt_record.setOnClickListener(this);
+        txt_info.setOnClickListener(this);
+        txt_center.setOnClickListener(this);
+    }
+
+    //重置所有文本的选中状态
+    private void setSelected(){
+        txt_appointment.setSelected(false);
+        txt_record.setSelected(false);
+        txt_info.setSelected(false);
+        txt_center.setSelected(false);
+    }
+
+    //隐藏所有Fragment
+    private void hideAllFragment(FragmentTransaction fragmentTransaction){
+        if(fgAppointment != null)fragmentTransaction.hide(fgAppointment);
+        if(fgRecord != null)fragmentTransaction.hide(fgRecord);
+        if(fgPatientInfo != null)fragmentTransaction.hide(fgPatientInfo);
+        if(fgPerCenter != null)fragmentTransaction.hide(fgPerCenter);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        FragmentTransaction fTransaction = fManager.beginTransaction();
+        hideAllFragment(fTransaction);
+        switch (v.getId()){
+            case R.id.txt_appointment:
+                setSelected();
+                txt_appointment.setSelected(true);
+                txt_topbar.setText("PKU校医院预约挂号");
+                if(fgAppointment == null){
+                    fgAppointment = new MyFragment("挂号预约页面");
+                    fTransaction.add(R.id.ly_content,fgAppointment);
+                }else{
+                    fTransaction.show(fgAppointment);
+                }
+                break;
+            case R.id.txt_record:
+                setSelected();
+                txt_record.setSelected(true);
+                txt_topbar.setText("挂号记录");
+                if(fgRecord == null){
+                    fgRecord = new MyFragment("挂号记录界面");
+                    fTransaction.add(R.id.ly_content,fgRecord);
+                }else{
+                    fTransaction.show(fgRecord);
+                }
+                break;
+            case R.id.txt_info:
+                setSelected();
+                txt_info.setSelected(true);
+                txt_topbar.setText("就诊人信息");
+                if(fgPatientInfo == null){
+                    fgPatientInfo = new MyFragment("就诊人信息页面");
+                    fTransaction.add(R.id.ly_content,fgPatientInfo);
+                }else{
+                    fTransaction.show(fgPatientInfo);
+                }
+                break;
+            case R.id.txt_center:
+                setSelected();
+                txt_center.setSelected(true);
+                txt_topbar.setText("个人中心");
+                if(fgPerCenter == null){
+                    fgPerCenter = new MyFragment("个人中心页面");
+                    fTransaction.add(R.id.ly_content,fgPerCenter);
+                }else{
+                    fTransaction.show(fgPerCenter);
+                }
+                break;
+        }
+        fTransaction.commit();
     }
 }
