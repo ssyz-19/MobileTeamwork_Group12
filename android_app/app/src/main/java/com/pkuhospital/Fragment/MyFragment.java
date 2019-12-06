@@ -60,5 +60,4 @@ public class MyFragment extends Fragment {
         listView.setAdapter(mAdapter);
         return view;
     }
-
 }

@@ -14,6 +14,10 @@
 &emsp;&emsp;(3)调用FragmentTransaction的add或replace方法加载Fragment;示例：add(要传入的容器，fragment对象)     
 &emsp;&emsp;(4)在前面的基础上调用FragmentTransaction的commit()方法提交事务，或者remove()方法等。   
 
-- 个人中心界面  
+- 个人中心界面  12.5   
+  只完成了页面设计，具体的页面挑战还没有实现
+- 添加就诊人界面 12.6   
+  1.创建碎片布局文件
+  2.创建相应的碎片
 
 

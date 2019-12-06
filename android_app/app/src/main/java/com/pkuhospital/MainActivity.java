@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.pkuhospital.Fragment.MyFragment;
+import com.pkuhospital.Fragment.PatientInfoFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -23,7 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FrameLayout ly_content;
 
     //Fragment Object
-    private MyFragment fgAppointment,fgRecord,fgPatientInfo,fgPerCenter;
+    private MyFragment fgAppointment,fgRecord,fgPerCenter;
+    private PatientInfoFragment fgPatientInfo;
     private FragmentManager fManager;
 
     @Override
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_info.setSelected(true);
                 txt_topbar.setText("就诊人");
                 if(fgPatientInfo == null){
-                    fgPatientInfo = new MyFragment("就诊人界面",MainActivity.this);
+                    fgPatientInfo = new PatientInfoFragment("添加就诊人",MainActivity.this);
                     fTransaction.add(R.id.ly_content,fgPatientInfo);
                 }else{
                     fTransaction.show(fgPatientInfo);

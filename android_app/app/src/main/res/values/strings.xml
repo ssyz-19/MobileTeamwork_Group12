@@ -3,7 +3,7 @@
 
     <string name="tab_menu_choose">挂号预约</string>
     <string name="tab_menu_history">挂号记录</string>
-    <string name="tab_menu_patient_info">就诊人</string>
+    <string name="tab_menu_patient_info">添加就诊人</string>
     <string name="tab_menu_personal_center">个人中心</string>
 
     <!-- TODO: Remove or change this placeholder text -->
