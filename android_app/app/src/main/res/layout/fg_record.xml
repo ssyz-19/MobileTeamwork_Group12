@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
 
         <ListView
-            android:id="@+id/patient_info_list"
+            android:id="@+id/record_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"/>
@@ -21,21 +21,5 @@
             android:layout_below="@+id/personal_center_list"
             android:background="@color/div_gray"/>
     </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/button_add_patient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="fragment update error"
-            android:textColor="@color/text_yellow"
-            android:textSize="20sp"/>
-
-    </RelativeLayout>
-
 
 </LinearLayout>

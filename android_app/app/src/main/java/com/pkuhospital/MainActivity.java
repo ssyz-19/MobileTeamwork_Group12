@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.pkuhospital.Fragment.MyFragment;
 import com.pkuhospital.Fragment.PatientInfoFragment;
+import com.pkuhospital.Fragment.RecordFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -21,10 +22,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView txt_record;
     private TextView txt_info;
     private TextView txt_center;
-    private FrameLayout ly_content;
+    private FrameLayout center_content;
 
     //Fragment Object
-    private MyFragment fgAppointment,fgRecord,fgPerCenter;
+    private MyFragment fgAppointment,fgPerCenter;
+    private RecordFragment fgRecord;
     private PatientInfoFragment fgPatientInfo;
     private FragmentManager fManager;
 
@@ -40,12 +42,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //UI组件初始化与事件绑定
     private void bindViews() {
-        txt_topbar = (TextView) findViewById(R.id.txt_topbar);
-        txt_appointment = (TextView) findViewById(R.id.txt_appointment);
-        txt_record = (TextView) findViewById(R.id.txt_record);
-        txt_info = (TextView) findViewById(R.id.txt_info);
-        txt_center = (TextView) findViewById(R.id.txt_center);
-        ly_content = (FrameLayout) findViewById(R.id.ly_content);
+        txt_topbar = findViewById(R.id.txt_topbar);
+        txt_appointment = findViewById(R.id.txt_appointment);
+        txt_record = findViewById(R.id.txt_record);
+        txt_info = findViewById(R.id.txt_info);
+        txt_center = findViewById(R.id.txt_center);
+        center_content = findViewById(R.id.center_content);
 
         txt_appointment.setOnClickListener(this);
         txt_record.setOnClickListener(this);
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_topbar.setText("PKU校医院预约挂号");
                 if(fgAppointment == null){
                     fgAppointment = new MyFragment("挂号预约页面",MainActivity.this);
-                    fTransaction.add(R.id.ly_content,fgAppointment);
+                    fTransaction.add(R.id.center_content,fgAppointment);
                 }else{
                     fTransaction.show(fgAppointment);
                 }
@@ -91,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_record.setSelected(true);
                 txt_topbar.setText("挂号记录");
                 if(fgRecord == null){
-                    fgRecord = new MyFragment("挂号记录界面",MainActivity.this);
-                    fTransaction.add(R.id.ly_content,fgRecord);
+                    fgRecord = new RecordFragment(MainActivity.this);
+                    fTransaction.add(R.id.center_content,fgRecord);
                 }else{
                     fTransaction.show(fgRecord);
                 }
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_topbar.setText("就诊人");
                 if(fgPatientInfo == null){
                     fgPatientInfo = new PatientInfoFragment("添加就诊人",MainActivity.this);
-                    fTransaction.add(R.id.ly_content,fgPatientInfo);
+                    fTransaction.add(R.id.center_content,fgPatientInfo);
                 }else{
                     fTransaction.show(fgPatientInfo);
                 }
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_topbar.setText("个人中心");
                 if(fgPerCenter == null){
                     fgPerCenter = new MyFragment("个人中心页面",MainActivity.this);
-                    fTransaction.add(R.id.ly_content,fgPerCenter);
+                    fTransaction.add(R.id.center_content,fgPerCenter);
                 }else{
                     fTransaction.show(fgPerCenter);
                 }
