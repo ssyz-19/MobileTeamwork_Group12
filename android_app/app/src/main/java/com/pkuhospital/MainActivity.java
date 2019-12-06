@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_appointment.setSelected(true);
                 txt_topbar.setText("PKU校医院预约挂号");
                 if(fgAppointment == null){
-                    fgAppointment = new MyFragment("挂号预约页面");
+                    fgAppointment = new MyFragment("挂号预约页面",MainActivity.this);
                     fTransaction.add(R.id.ly_content,fgAppointment);
                 }else{
                     fTransaction.show(fgAppointment);
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_record.setSelected(true);
                 txt_topbar.setText("挂号记录");
                 if(fgRecord == null){
-                    fgRecord = new MyFragment("挂号记录界面");
+                    fgRecord = new MyFragment("挂号记录界面",MainActivity.this);
                     fTransaction.add(R.id.ly_content,fgRecord);
                 }else{
                     fTransaction.show(fgRecord);
@@ -98,9 +98,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.txt_info:
                 setSelected();
                 txt_info.setSelected(true);
-                txt_topbar.setText("就诊人信息");
+                txt_topbar.setText("就诊人");
                 if(fgPatientInfo == null){
-                    fgPatientInfo = new MyFragment("就诊人信息页面");
+                    fgPatientInfo = new MyFragment("就诊人界面",MainActivity.this);
                     fTransaction.add(R.id.ly_content,fgPatientInfo);
                 }else{
                     fTransaction.show(fgPatientInfo);
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_center.setSelected(true);
                 txt_topbar.setText("个人中心");
                 if(fgPerCenter == null){
-                    fgPerCenter = new MyFragment("个人中心页面");
+                    fgPerCenter = new MyFragment("个人中心页面",MainActivity.this);
                     fTransaction.add(R.id.ly_content,fgPerCenter);
                 }else{
                     fTransaction.show(fgPerCenter);
