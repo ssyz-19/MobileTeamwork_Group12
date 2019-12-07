@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.pkuhospital.Fragment.MyFragment;
 import com.pkuhospital.Fragment.PatientInfoFragment;
 import com.pkuhospital.Fragment.RecordFragment;
+import com.pkuhospital.Utils.GlobalVar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_appointment.setSelected(true);
                 txt_topbar.setText("PKU校医院预约挂号");
                 if(fgAppointment == null){
-                    fgAppointment = new MyFragment("挂号预约页面",MainActivity.this);
+                    fgAppointment = new MyFragment(MainActivity.this);
                     fTransaction.add(R.id.center_content,fgAppointment);
                 }else{
                     fTransaction.show(fgAppointment);
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_center.setSelected(true);
                 txt_topbar.setText("个人中心");
                 if(fgPerCenter == null){
-                    fgPerCenter = new MyFragment("个人中心页面",MainActivity.this);
+                    fgPerCenter = new MyFragment(MainActivity.this);
                     fTransaction.add(R.id.center_content,fgPerCenter);
                 }else{
                     fTransaction.show(fgPerCenter);

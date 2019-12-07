@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.pkuhospital.Bean.Label;
 import com.pkuhospital.Bean.LabelAdapter;
 import com.pkuhospital.R;
+import com.pkuhospital.Utils.GlobalVar;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,37 +28,48 @@ import java.util.List;
  * 草稿碎片，后期可以再此基础上改动
  */
 public class MyFragment extends Fragment {
-    private String buttonContent;
     private Context mContext;
 
-    private List<Label> mLabel = new LinkedList<>();//这里必须分配空间，不能是null
+    private List<Label> Label = new LinkedList<>();//这里必须分配空间，不能是null
 
-    private void initmLabel(){
-        mLabel.add(new Label("关于我们",R.mipmap.tab_appointment_pressed));
-        mLabel.add(new Label("意见反馈",R.mipmap.tab_center_pressed));
-        mLabel.add(new Label("关于我们",R.mipmap.tab_info_pressed));
+    private void initLabel(){
+        Label.add(new Label("关于我们",R.mipmap.tab_appointment_pressed));
+        Label.add(new Label("意见反馈",R.mipmap.tab_center_pressed));
+        Label.add(new Label("注销账号",R.mipmap.tab_info_pressed));
     }
 
     /**
-     * 只有文字
-     * @param content 显示在布局中心的文字
+     * constructor
      * @param context
      */
-    public MyFragment(String content,Context context)
+    public MyFragment(Context context)
     {
-        initmLabel();
-        this.buttonContent = content;
         this.mContext = context;
+        initLabel();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fg_content,container,false);
-        Button button = view.findViewById(R.id.test_button);
+        final Button button = view.findViewById(R.id.button_register);
         ListView listView = view.findViewById(R.id.personal_center_list);
-        LabelAdapter mAdapter = new LabelAdapter((LinkedList<Label>)mLabel,mContext);
-        button.setText(buttonContent);
+        LabelAdapter mAdapter = new LabelAdapter((LinkedList<Label>)Label,mContext);
+        if(GlobalVar.isWhetherUserSignIn()){
+            button.setText("退出登录");
+        }else{
+            button.setText("用户登录");
+        }
         listView.setAdapter(mAdapter);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(GlobalVar.isWhetherUserSignIn()){
+
+                }else{
+
+                }
+            }
+        });
         return view;
     }
 }
