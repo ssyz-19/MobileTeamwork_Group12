@@ -10,8 +10,9 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.pkuhospital.Fragment.MyFragment;
+import com.pkuhospital.Fragment.AppointmentFragment;
 import com.pkuhospital.Fragment.PatientInfoFragment;
+import com.pkuhospital.Fragment.PerCenterFragment;
 import com.pkuhospital.Fragment.RecordFragment;
 import com.pkuhospital.Utils.GlobalVar;
 
@@ -26,9 +27,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FrameLayout center_content;
 
     //Fragment Object
-    private MyFragment fgAppointment,fgPerCenter;
+    private PerCenterFragment fgPerCenter;
     private RecordFragment fgRecord;
     private PatientInfoFragment fgPatientInfo;
+    private AppointmentFragment fgAppointment;
+
     private FragmentManager fManager;
 
     @Override
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_appointment.setSelected(true);
                 txt_topbar.setText("PKU校医院预约挂号");
                 if(fgAppointment == null){
-                    fgAppointment = new MyFragment(MainActivity.this);
+                    fgAppointment = new AppointmentFragment(MainActivity.this);
                     fTransaction.add(R.id.center_content,fgAppointment);
                 }else{
                     fTransaction.show(fgAppointment);
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_center.setSelected(true);
                 txt_topbar.setText("个人中心");
                 if(fgPerCenter == null){
-                    fgPerCenter = new MyFragment(MainActivity.this);
+                    fgPerCenter = new PerCenterFragment(MainActivity.this);
                     fTransaction.add(R.id.center_content,fgPerCenter);
                 }else{
                     fTransaction.show(fgPerCenter);

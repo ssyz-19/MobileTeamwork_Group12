@@ -27,7 +27,7 @@ import java.util.List;
  * 该碎片暂时放在主界面
  * 草稿碎片，后期可以再此基础上改动
  */
-public class MyFragment extends Fragment {
+public class PerCenterFragment extends Fragment {
     private Context mContext;
 
     private List<Label> Label = new LinkedList<>();//这里必须分配空间，不能是null
@@ -42,7 +42,7 @@ public class MyFragment extends Fragment {
      * constructor
      * @param context
      */
-    public MyFragment(Context context)
+    public PerCenterFragment(Context context)
     {
         this.mContext = context;
         initLabel();
