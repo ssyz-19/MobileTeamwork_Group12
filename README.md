@@ -20,7 +20,11 @@
   &emsp;1.2创建新的活动SenconActivity（as自动完成注册）和相应的布局文件
   &emsp;1.3创建“关于我们”的碎片布局，并加载到上述活动中。   
   &emsp;**错误：** 碎片布局对应的页面不显示。 **错误原因：** 没有调用commit()方法   
-  &emsp;1.4解决TextView如何显示大段文字的问题
+  &emsp;1.4解决TextView如何显示大段文字的问题   
+  &emsp;1.5解决TextView首行缩进，文字对齐“\t\t\t\t”，一个\t代表一个英文字符     
+  &emsp;1.6解决TextView大段文字两端不对齐的问题，重新定义一个JustifyTextView类。    
+  &emsp;**问题：** v7包中TextView用不了，用androidx.appcompat.appcompat中的AppcompatTextView代替 
+  
 - 添加就诊人界面 12.6   
   1.创建碎片布局(适当修改和个人中心的页面布局)  
   2.创建相应的碎片  

@@ -30,8 +30,6 @@ public class AboutUsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fg_about_us,container,false);
-//        TextView mainText = view.findViewById(R.id.second_main_text);
-//        mainText.setText("呵呵呵呵呵呵哒");
         return view;
     }
 
