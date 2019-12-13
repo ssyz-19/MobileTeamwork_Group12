@@ -32,5 +32,4 @@ public class AboutUsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fg_about_us,container,false);
         return view;
     }
-
 }

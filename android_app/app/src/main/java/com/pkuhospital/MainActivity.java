@@ -1,10 +1,13 @@
 package com.pkuhospital;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -17,6 +20,7 @@ import com.pkuhospital.Fragment.RecordFragment;
 import com.pkuhospital.Utils.GlobalVar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = "MainActivity";
 
     //UI Object
     private TextView txt_topbar;
