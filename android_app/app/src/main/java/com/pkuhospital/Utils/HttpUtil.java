@@ -34,4 +34,16 @@ public class HttpUtil {
                 .build();
         client.newCall(request).enqueue(callback);
     }
+
+    public static void getDepartmentHttpRequest(String address,Callback callback){
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+//                .header("Connection","close")
+//                .header("Content-Length","100")
+//                .header("Content-Type","application/json;charset=UTF-8")
+                .url(address)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
 }

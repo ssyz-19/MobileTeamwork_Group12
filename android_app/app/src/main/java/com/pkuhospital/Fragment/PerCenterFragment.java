@@ -34,8 +34,7 @@ import static android.app.Activity.RESULT_OK;
 
 /**
  * @author 杨洲
- * 该碎片暂时放在主界面
- * 草稿碎片，后期可以再此基础上改动
+ * 个人中心界面
  */
 public class PerCenterFragment extends Fragment {
     private static final String TAG = "PerCenterFragment";
