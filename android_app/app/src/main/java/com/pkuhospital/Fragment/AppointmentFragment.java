@@ -3,11 +3,11 @@ package com.pkuhospital.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -17,40 +17,32 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.pkuhospital.Bean.Label;
-import com.pkuhospital.Bean.LabelAdapter;
+
 import com.pkuhospital.Db.Department;
+import com.pkuhospital.Db.Doctor;
 import com.pkuhospital.R;
 import com.pkuhospital.Utils.GlobalVar;
 import com.pkuhospital.Utils.HttpUtil;
 import com.pkuhospital.Utils.Utility;
 
 import org.litepal.crud.DataSupport;
-import org.w3c.dom.Text;
 
-import java.io.BufferedReader;
+
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.Buffer;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.Response;
-import okio.Utf8;
+
 
 import static android.view.View.GONE;
 
 /**
  * 选择科室、医生和时间
- * @author 杨洲
+ * @author yangzhou
  * @time 2019.12.7
  */
 public class AppointmentFragment extends Fragment {
@@ -58,6 +50,7 @@ public class AppointmentFragment extends Fragment {
 
     private Context mContext;
     private static final int LEVEL_DEPARTMENT = 0;
+    private static final int LEVEL_DOCTOR = 1;
     private ProgressDialog progressDialog;
     private Button backButton; //暂时用作测试按钮
     private ListView listView;
@@ -68,6 +61,14 @@ public class AppointmentFragment extends Fragment {
      * 科室列表
      */
     private List<Department> departmentList;
+    /**
+     * 医生列表
+     */
+    private List<Doctor> doctorList;
+    /**
+     * 选中的科室
+     */
+    private Department selectedDepartment;
     /**
      * 当前预约的阶段
      * 例如currentLevel = 0(LEVEL_DEPARTMENT)，则表明当前处于选择科室的阶段
@@ -86,8 +87,6 @@ public class AppointmentFragment extends Fragment {
         backButton = view.findViewById(R.id.back_button);
         titleText = view.findViewById(R.id.title_text);
         listView = view.findViewById(R.id.department_list);
-        backButton.setVisibility(View.VISIBLE);
-        titleText.setText("选择科室");
         adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,dataList);
         listView.setAdapter(adapter);
         return view;
@@ -95,37 +94,24 @@ public class AppointmentFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        HttpUtil.getDepartmentHttpRequest(GlobalVar.getServerUrl() + "/office");
-//                        HttpUtil.getDepartmentHttpRequest(GlobalVar.getServerUrl() + "/office", new Callback() {
-//                            @Override
-//                            public void onFailure(Call call, IOException e) {
-//                                getActivity().runOnUiThread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        Toast.makeText(getContext(),"加载失败",Toast.LENGTH_SHORT).show();
-//                                    }
-//                                });
-//                            }
-//
-//                            @Override
-//                            public void onResponse(Call call, Response response) throws IOException {
-//                                String responseTxt = response.body().string();
-//                                Utility.handleOfficeResponse(responseTxt);
-//                                Log.i(TAG, "onResponse: "+responseTxt);
-////                                System.out.println(response.body().contentLength());
-////                                System.out.println(response.body().contentType());
-//                            }
-//                        });
-//                    }
-//                }).start();
-//            }
-//        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(currentLevel == LEVEL_DEPARTMENT){
+                    selectedDepartment = departmentList.get(position);
+                    queryDoctors();
+                }
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currentLevel == LEVEL_DOCTOR){
+                    queryDepartments();
+                }
+            }
+        });
         queryDepartments();
         super.onActivityCreated(savedInstanceState);
     }
@@ -133,8 +119,10 @@ public class AppointmentFragment extends Fragment {
     /**
      * 请求科室数据
      * @author yangzhou
+     * @time 2019.12.18
      */
     private void queryDepartments(){
+        titleText.setText("选择科室");
         backButton.setVisibility(GONE);
         departmentList = DataSupport.findAll(Department.class);
         if(departmentList.size()>0){
@@ -152,42 +140,73 @@ public class AppointmentFragment extends Fragment {
     }
 
     /**
-     *
+     * 请求医生数据
+     * @author yangzhou
+     * @time 2019.12.18
+     */
+    private void queryDoctors(){
+        titleText.setText(selectedDepartment.getOfficeName()+":选择医生");
+        backButton.setVisibility(View.VISIBLE);
+        doctorList = DataSupport.where("departmentId = ?",String.valueOf(selectedDepartment.getOfficeId()))
+                .find(Doctor.class);
+        if(doctorList.size() > 0){
+            dataList.clear();
+            for(Doctor doctor:doctorList){
+                dataList.add(doctor.getDoctorName());
+            }
+            adapter.notifyDataSetChanged();
+            listView.setSelection(0);
+            currentLevel =LEVEL_DOCTOR;
+        }else{
+            String address = GlobalVar.getServerUrl()+'/'+selectedDepartment.getOfficeId();
+//            Log.i(TAG, "queryDoctors: "+address);
+            queryFromServer(address,"doctor");
+        }
+    }
+    /**
+     * 数据库没有对应数据，从服务器请求数据
      * @param address url
-     * @param type  请求数据的类型
+     * @param type  请求数据的类型，department：请求科室数据 doctor：请求医生数据
      */
     private void queryFromServer(String address,final String type){
         showProgressDialog();
-        if("department".equals(type)){
-            HttpUtil.sendOkHttpRequest(address, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
+        HttpUtil.sendOkHttpRequest(address, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeProgressDialog();
+                        Toast.makeText(getContext(),"加载失败",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseTxt = response.body().string();
+                boolean result = false;
+                if("department".equals(type)){
+                    result = Utility.handleOfficeResponse(responseTxt);
+                }else if("doctor".equals(type)){
+                    result = Utility.handleDoctorResponse(responseTxt,
+                            selectedDepartment.getOfficeId());
+                }
+                if(result){//如果返回的数据是正确的，更新UI
+                    closeProgressDialog();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            closeProgressDialog();
-                            Toast.makeText(getContext(),"加载失败",Toast.LENGTH_SHORT).show();
+                            if("department".equals(type)){
+                                queryDepartments();
+                            }else if("doctor".equals(type)){
+                                queryDoctors();
+                            }
                         }
                     });
                 }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String responseTxt = response.body().string();
-                    boolean result = false;
-                    result = Utility.handleOfficeResponse(responseTxt);
-                    if(result){//如果返回的数据是正确的，更新UI
-                        closeProgressDialog();
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                queryDepartments();
-                            }
-                        });
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 
     /**
@@ -210,34 +229,4 @@ public class AppointmentFragment extends Fragment {
             progressDialog.dismiss();
         }
     }
-
 }
-
-//HttpURLConnection  弃用
-//                        HttpURLConnection connection = null;
-//                        BufferedReader reader = null;
-//                        try{
-//                            URL url = new URL(GlobalVar.getServerUrl()+"/office");
-//                            connection = (HttpURLConnection)url.openConnection();
-//                            connection.setRequestMethod("GET");
-//                            connection.setConnectTimeout(8000);
-//                            InputStream in = connection.getInputStream();
-//                            reader = new BufferedReader(new InputStreamReader(in));
-////                            StringBuilder response = new StringBuilder();
-//                            System.out.println(connection.getResponseCode());
-//                            System.out.println(reader.readLine());
-////                            Log.i(TAG, "run: "+reader.readLine());
-//                        }catch (Exception e){
-//                            e.printStackTrace();
-//                        }finally {
-//                            if(reader != null){
-//                                try{
-//                                    reader.close();
-//                                }catch (Exception e){
-//                                    e.printStackTrace();
-//                                }
-//                                if(connection != null){
-//                                    connection.disconnect();
-//                                }
-//                            }
-//                        }
