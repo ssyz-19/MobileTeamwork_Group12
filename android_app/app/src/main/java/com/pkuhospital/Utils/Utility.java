@@ -21,6 +21,7 @@ public class Utility {
                    Department department = new Department();
                    department.setOfficeId(departmentObject.getString("office_id"));
                    department.setOfficeName(departmentObject.getString("office_name"));
+                   department.save();
 //                    Log.i(TAG, "handleOfficeResponse: "+department.getOfficeId());
 //                    Log.i(TAG, "handleOfficeResponse: "+department.getOfficeName());
                 }

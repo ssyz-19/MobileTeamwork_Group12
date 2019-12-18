@@ -35,7 +35,7 @@ public class HttpUtil {
         client.newCall(request).enqueue(callback);
     }
 
-    public static void getDepartmentHttpRequest(String address,Callback callback){
+    public static void sendOkHttpRequest(String address,Callback callback){
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
 //                .header("Connection","close")
