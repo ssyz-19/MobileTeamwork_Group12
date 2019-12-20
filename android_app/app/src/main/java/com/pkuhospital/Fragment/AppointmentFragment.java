@@ -1,8 +1,13 @@
 package com.pkuhospital.Fragment;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import com.google.gson.JsonIOException;
 import com.pkuhospital.Db.Department;
 import com.pkuhospital.Db.Doctor;
 import com.pkuhospital.R;
@@ -25,6 +31,9 @@ import com.pkuhospital.Utils.GlobalVar;
 import com.pkuhospital.Utils.HttpUtil;
 import com.pkuhospital.Utils.Utility;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
 
@@ -39,6 +48,7 @@ import okhttp3.Response;
 
 
 import static android.view.View.GONE;
+import static android.view.View.getDefaultSize;
 
 /**
  * 选择科室、医生和时间
@@ -51,6 +61,7 @@ public class AppointmentFragment extends Fragment {
     private Context mContext;
     private static final int LEVEL_DEPARTMENT = 0;
     private static final int LEVEL_DOCTOR = 1;
+    private static final int LEVEL_TIME = 2;
     private ProgressDialog progressDialog;
     private Button backButton; //暂时用作测试按钮
     private ListView listView;
@@ -70,10 +81,34 @@ public class AppointmentFragment extends Fragment {
      */
     private Department selectedDepartment;
     /**
+     * 选中的医生
+     */
+    private Doctor selectedDoctor;
+    /**
      * 当前预约的阶段
      * 例如currentLevel = 0(LEVEL_DEPARTMENT)，则表明当前处于选择科室的阶段
      */
     private int currentLevel;
+
+    /**
+     * 处理获取可预约时间段的异步传输数据
+     * @time 2019.12.19
+     */
+    private Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+            int what = msg.what;
+            switch (what){
+                case 0:
+                    closeProgressDialog();
+                    adapter.notifyDataSetChanged();
+                    listView.setSelection(0);
+                    currentLevel = LEVEL_TIME;
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     public AppointmentFragment(Context context)
     {
@@ -96,10 +131,63 @@ public class AppointmentFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 if(currentLevel == LEVEL_DEPARTMENT){
                     selectedDepartment = departmentList.get(position);
                     queryDoctors();
+                }else if(currentLevel == LEVEL_DOCTOR){
+                    selectedDoctor = doctorList.get(position);
+                    queryDateInfo();
+                }else if(currentLevel == LEVEL_TIME){
+                    AlertDialog.Builder logoutDialog = new AlertDialog.Builder(mContext);
+                    logoutDialog.setTitle("提示");
+                    logoutDialog.setMessage("是否确定预约该时间段？");
+                    logoutDialog.setCancelable(false);
+
+                    logoutDialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            /**
+                             * 发送预约请求
+                             */
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String timeStr = dataList.get(position);
+                                    HttpUtil.postOkHttpRequest("confirm", GlobalVar.getServerUrl(),
+                                            Integer.toString(selectedDoctor.getDoctorId()),timeStr, new Callback() {
+
+                                                @Override
+                                                public void onFailure(Call call, IOException e) {
+                                                    Toast.makeText(mContext,"客户端请求错误或服务器错误",Toast.LENGTH_SHORT)
+                                                            .show();
+                                                }
+
+                                                @Override
+                                                public void onResponse(Call call, Response response) throws IOException {
+                                                    String responseTxt = response.body().string();
+                                                    final String result = Utility.handleConfirmResponse(responseTxt);
+                                                    getActivity().runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            Toast.makeText(mContext,result,Toast.LENGTH_SHORT)
+                                                                    .show();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                }
+                            }).start();
+                        }
+                    });
+
+                    logoutDialog.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+
+                    logoutDialog.show();
                 }
             }
         });
@@ -109,9 +197,12 @@ public class AppointmentFragment extends Fragment {
             public void onClick(View v) {
                 if(currentLevel == LEVEL_DOCTOR){
                     queryDepartments();
+                }else if(currentLevel == LEVEL_TIME){
+                    queryDoctors();
                 }
             }
         });
+
         queryDepartments();
         super.onActivityCreated(savedInstanceState);
     }
@@ -156,13 +247,39 @@ public class AppointmentFragment extends Fragment {
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
-            currentLevel =LEVEL_DOCTOR;
+            currentLevel = LEVEL_DOCTOR;
         }else{
             String address = GlobalVar.getServerUrl()+'/'+selectedDepartment.getOfficeId();
-//            Log.i(TAG, "queryDoctors: "+address);
             queryFromServer(address,"doctor");
         }
     }
+
+    /**
+     * 获取对应医生的可预约时间
+     */
+    private void queryDateInfo(){
+        titleText.setText("医生:"+selectedDoctor.getDoctorName()+" 可选时间段:");
+        showProgressDialog();
+        HttpUtil.postOkHttpRequest("dateInfo", GlobalVar.getServerUrl(), "",
+                String.valueOf(selectedDoctor.getDoctorId()), new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getContext(),"error:获取预约时间失败",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseTxt = response.body().string();
+                saveSelectableTime(responseTxt);
+            }
+        });
+    }
+
     /**
      * 数据库没有对应数据，从服务器请求数据
      * @param address url
@@ -207,6 +324,32 @@ public class AppointmentFragment extends Fragment {
                 }
             }
         });
+    }
+
+    /**
+     * 显示可预约时间
+     * @param response 获取到的json格式数据
+     * @time 2019.12.19
+     */
+    private boolean saveSelectableTime(String response){
+        /**
+         * 直接在函数中解析json数据
+         */
+        if(!TextUtils.isEmpty(response)){
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                JSONArray allSelectableTime = jsonObject.getJSONArray("result");
+                dataList.clear();
+                for(int i=0;i<allSelectableTime.length();i++){
+                    dataList.add(allSelectableTime.getJSONObject(i).getString("time"));
+                }
+                handler.sendEmptyMessage(0);
+                return true;
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
     /**

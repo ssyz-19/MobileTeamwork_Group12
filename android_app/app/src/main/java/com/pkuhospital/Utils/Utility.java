@@ -1,8 +1,10 @@
 package com.pkuhospital.Utils;
 
 import android.text.TextUtils;
+import android.util.JsonReader;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
 import com.pkuhospital.Db.Department;
 import com.pkuhospital.Db.Doctor;
 
@@ -15,6 +17,7 @@ public class Utility {
 
     /**
      * 解析科室数据
+     * @author yangzhou
      * @param response 服务器返回的json格式数据
      * @return 解析成功返回true，否则返回false
      */
@@ -40,6 +43,13 @@ public class Utility {
         return false;
     }
 
+    /**
+     * 解析医生数据
+     * @author yangzhou
+     * @param response 服务器返回的json格式数据
+     * @param departmentId 医生从属的科室编号
+     * @return 解析成功返回true，否则返回false
+     */
     public static boolean handleDoctorResponse(String response,String departmentId){
         if(!TextUtils.isEmpty(response)){
             try{
@@ -61,5 +71,16 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    public static String handleConfirmResponse(String response){
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+            String result = jsonObject.getJSONObject("result").getString("status");
+            return result;
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+        return "客户端请求错误或服务器错误";
     }
 }

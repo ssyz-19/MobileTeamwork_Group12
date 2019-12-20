@@ -68,7 +68,7 @@ public class LoginFragment extends Fragment {
                     case R.id.button_login:
                         inputStuId = editStuId.getText().toString();
                         inputPassword = editPasswd.getText().toString();
-                        HttpUtil.loginOkHttpRequest(GlobalVar.getServerUrl() + "/login",inputStuId,inputPassword,new Callback() {
+                        HttpUtil.postOkHttpRequest("login",GlobalVar.getServerUrl(),inputStuId,inputPassword,new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 loginFailure(2);
@@ -82,6 +82,7 @@ public class LoginFragment extends Fragment {
                                     boolean status = jsonObject.getBoolean("status");
                                     if(status&&!GlobalVar.isWhetherUserSignIn()){ //改为登录状态
                                         GlobalVar.invertWhetherUserSignIn();
+                                        GlobalVar.setStuId(inputStuId);
                                         getActivity().finish();
                                     }else{
                                         loginFailure(0);

@@ -10,7 +10,7 @@ import org.litepal.crud.DataSupport;
 public class Doctor extends DataSupport {
     private String doctorName;
     private String doctorInfo;
-    private int doctorId;
+    private int doctorId;    //每个医生对应的id是唯一的
     private String departmentId;
 
     public void setDoctorName(String doctorName) {
