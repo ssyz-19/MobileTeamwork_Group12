@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,7 +50,6 @@ import okhttp3.Response;
 
 
 import static android.view.View.GONE;
-import static android.view.View.getDefaultSize;
 
 /**
  * 选择科室、医生和时间
@@ -139,6 +140,10 @@ public class AppointmentFragment extends Fragment {
                     selectedDoctor = doctorList.get(position);
                     queryDateInfo();
                 }else if(currentLevel == LEVEL_TIME){
+                    if(!GlobalVar.isWhetherUserSignIn()){
+                        Toast.makeText(mContext,"尚未登录",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     AlertDialog.Builder logoutDialog = new AlertDialog.Builder(mContext);
                     logoutDialog.setTitle("提示");
                     logoutDialog.setMessage("是否确定预约该时间段？");
@@ -153,7 +158,7 @@ public class AppointmentFragment extends Fragment {
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    String timeStr = dataList.get(position);
+                                    final String timeStr = dataList.get(position);
                                     HttpUtil.postOkHttpRequest("confirm", GlobalVar.getServerUrl(),
                                             Integer.toString(selectedDoctor.getDoctorId()),timeStr, new Callback() {
 
@@ -167,6 +172,16 @@ public class AppointmentFragment extends Fragment {
                                                 public void onResponse(Call call, Response response) throws IOException {
                                                     String responseTxt = response.body().string();
                                                     final String result = Utility.handleConfirmResponse(responseTxt);
+                                                    if("预约成功".equals(result)){
+                                                        SharedPreferences.Editor editor = getActivity().getSharedPreferences(
+                                                                GlobalVar.getStuId(),Context.MODE_PRIVATE
+                                                        ).edit();
+                                                        editor.putString("username",GlobalVar.getStuId());
+                                                        editor.putString("doctor_name",selectedDoctor.getDoctorName());
+                                                        editor.putString("time",timeStr);
+                                                        editor.putBoolean("invalid",true);//用于判断该记录是否有效
+                                                        editor.apply();
+                                                    }
                                                     getActivity().runOnUiThread(new Runnable() {
                                                         @Override
                                                         public void run() {

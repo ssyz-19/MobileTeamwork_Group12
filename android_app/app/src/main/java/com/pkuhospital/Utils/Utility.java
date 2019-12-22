@@ -73,6 +73,12 @@ public class Utility {
         return false;
     }
 
+    /**
+     * 解析发送预约请求后获得的数据
+     * @author yangzhou
+     * @param response
+     * @return 返回预约结果，共有3种可能，分别为预约成功，预约已满，请勿重复预约
+     */
     public static String handleConfirmResponse(String response){
         try{
             JSONObject jsonObject = new JSONObject(response);

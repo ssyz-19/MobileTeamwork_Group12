@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     fgRecord = new RecordFragment(MainActivity.this);
                     fTransaction.add(R.id.center_content,fgRecord);
                 }else{
+                    fgRecord.onResume(); //每次切换都重新判断登录的账号
                     fTransaction.show(fgRecord);
                 }
                 break;
