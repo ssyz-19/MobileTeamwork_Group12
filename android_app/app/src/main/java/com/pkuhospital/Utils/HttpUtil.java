@@ -1,8 +1,10 @@
 package com.pkuhospital.Utils;
 
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
@@ -21,7 +23,7 @@ public class HttpUtil {
      * post用户登录请求、获取可预约时间等
      * 这个后面可以改一下，把post的字段以json格式数据一起传进去然后解析
      * @author yangzhou
-     * @param type login：登录请求 dateInfo:获取预约时间段 confirm:发送预约请求
+     * @param type login：登录请求 dateInfo:获取预约时间段 confirm:发送预约请求 cancel:取消预约
      * @param address 服务器地址
      * @param arg1 type:login 用户名，即学号   type：confirm 想要预约的医生的id
      * @param arg2 type:login 表示登录密码 type:dateInfo 表示医生id type：confirm 表示预约时间段
@@ -43,7 +45,7 @@ public class HttpUtil {
                     .build();
         }else if("confirm".equals(type)){
             if(TextUtils.isEmpty(GlobalVar.getStuId())){
-                Log.i(TAG, "postOkHttpRequest: 用户未登录");
+                Log.w(TAG, "postOkHttpRequest: 用户未登录");
                 return;
             }
             else {
@@ -54,6 +56,11 @@ public class HttpUtil {
                         .add("date", arg2)
                         .build();
             }
+        }else if("cancel".equals(type)){
+            address = address + "/cancel";
+            requestBody = new FormBody.Builder()
+                    .add("username", GlobalVar.getStuId())
+                    .build();
         }
         Request request = new Request.Builder()
                 .url(address)

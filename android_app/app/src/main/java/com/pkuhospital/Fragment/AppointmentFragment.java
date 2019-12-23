@@ -141,7 +141,7 @@ public class AppointmentFragment extends Fragment {
                     queryDateInfo();
                 }else if(currentLevel == LEVEL_TIME){
                     if(!GlobalVar.isWhetherUserSignIn()){
-                        Toast.makeText(mContext,"尚未登录",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext,"用户未登录",Toast.LENGTH_SHORT).show();
                         return;
                     }
                     AlertDialog.Builder logoutDialog = new AlertDialog.Builder(mContext);
@@ -176,8 +176,8 @@ public class AppointmentFragment extends Fragment {
                                                         SharedPreferences.Editor editor = getActivity().getSharedPreferences(
                                                                 GlobalVar.getStuId(),Context.MODE_PRIVATE
                                                         ).edit();
-                                                        editor.putString("username",GlobalVar.getStuId());
                                                         editor.putString("doctor_name",selectedDoctor.getDoctorName());
+                                                        editor.putString("doctor_info",selectedDoctor.getDoctorInfo());
                                                         editor.putString("time",timeStr);
                                                         editor.putBoolean("invalid",true);//用于判断该记录是否有效
                                                         editor.apply();

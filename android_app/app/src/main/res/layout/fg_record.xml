@@ -22,4 +22,5 @@
             android:background="@color/div_gray"/>
     </RelativeLayout>
 
+    <include layout="@layout/appointment_record"/>
 </LinearLayout>

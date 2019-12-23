@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pkuhospital.Fragment.AppointmentFragment;
 import com.pkuhospital.Fragment.PatientInfoFragment;
@@ -87,15 +88,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         FragmentTransaction fTransaction = fManager.beginTransaction();
         hideAllFragment(fTransaction);
-        RelativeLayout tmp = (RelativeLayout)findViewById(R.id.ly_top_bar);
+        RelativeLayout topLabel = (RelativeLayout)findViewById(R.id.ly_top_bar);
         switch (v.getId()){
             case R.id.txt_appointment:
                 setSelected();
                 txt_appointment.setSelected(true);
                 //这里暂时先这样吧
-                tmp.setVisibility(GONE);
+                topLabel.setVisibility(GONE);
 //                txt_topbar.setVisibility(GONE);
 //                txt_topbar.setText("PKU校医院预约挂号");
+                if(!GlobalVar.isWhetherUserSignIn()){
+                    Toast.makeText(MainActivity.this,"用户未登录",Toast.LENGTH_SHORT)
+                            .show();
+                }
                 if(fgAppointment == null){
                     fgAppointment = new AppointmentFragment(MainActivity.this);
                     fTransaction.add(R.id.center_content,fgAppointment);
@@ -106,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.txt_record:
                 setSelected();
                 txt_record.setSelected(true);
-                tmp.setVisibility(View.VISIBLE);
+                topLabel.setVisibility(View.VISIBLE);
                 txt_topbar.setText("挂号记录");
                 if(fgRecord == null){
                     fgRecord = new RecordFragment(MainActivity.this);
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.txt_info:
                 setSelected();
                 txt_info.setSelected(true);
-                tmp.setVisibility(View.VISIBLE);
+                topLabel.setVisibility(View.VISIBLE);
                 txt_topbar.setText("就诊人");
                 if(fgPatientInfo == null){
                     fgPatientInfo = new PatientInfoFragment("添加就诊人",MainActivity.this);
@@ -131,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.txt_center:
                 setSelected();
                 txt_center.setSelected(true);
-                tmp.setVisibility(View.VISIBLE);
+                topLabel.setVisibility(View.VISIBLE);
                 txt_topbar.setText("个人中心");
                 if(fgPerCenter == null){
                     fgPerCenter = new PerCenterFragment(MainActivity.this);
