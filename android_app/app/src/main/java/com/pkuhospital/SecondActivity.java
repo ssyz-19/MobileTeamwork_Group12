@@ -7,7 +7,9 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ public class SecondActivity extends AppCompatActivity {
     private FragmentManager fgManager;
 
     private TextView titleText;
+    private Button backButton;
     private Intent intent;
 
     @Override
@@ -30,6 +33,7 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
         intent = getIntent();
         titleText = findViewById(R.id.txt_topbar2);
+        backButton = findViewById(R.id.button_cancel_login);
         String title = intent.getStringExtra("titleTxt");
         titleText.setText(title);
         fgManager = getSupportFragmentManager();
@@ -44,5 +48,12 @@ public class SecondActivity extends AppCompatActivity {
         }
 
         fgTransaction.commit();
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

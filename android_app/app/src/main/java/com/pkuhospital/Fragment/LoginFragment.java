@@ -64,38 +64,34 @@ public class LoginFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.button_login:
-                        inputStuId = editStuId.getText().toString();
-                        inputPassword = editPasswd.getText().toString();
-                        HttpUtil.postOkHttpRequest("login",GlobalVar.getServerUrl(),inputStuId,inputPassword,new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-                                loginFailure(2);
-                            }
+                inputStuId = editStuId.getText().toString();
+                inputPassword = editPasswd.getText().toString();
+                HttpUtil.postOkHttpRequest("login",GlobalVar.getServerUrl(),inputStuId,inputPassword,new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        loginFailure(2);
+                    }
 
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                String responseText = response.body().string();
-                                try {
-                                    JSONObject jsonObject = new JSONObject(responseText);
-                                    boolean status = jsonObject.getBoolean("status");
-                                    if(status&&!GlobalVar.isWhetherUserSignIn()){ //改为登录状态
-                                        GlobalVar.invertWhetherUserSignIn();
-                                        GlobalVar.setStuId(inputStuId);
-                                        getActivity().finish();
-                                    }else{
-                                        loginFailure(0);
-                                    }
-                                    Log.i(TAG, "登录状态："+status);
-                                } catch (JSONException e) {
-                                    loginFailure(1);
-                                    e.printStackTrace();
-                                }
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String responseText = response.body().string();
+                        try {
+                            JSONObject jsonObject = new JSONObject(responseText);
+                            boolean status = jsonObject.getBoolean("status");
+                            if(status&&!GlobalVar.isWhetherUserSignIn()){ //改为登录状态
+                                GlobalVar.invertWhetherUserSignIn();
+                                GlobalVar.setStuId(inputStuId);
+                                getActivity().finish();
+                            }else{
+                                loginFailure(0);
                             }
-                        });
-                    default:
-                }
+                            Log.i(TAG, "登录状态："+status);
+                        } catch (JSONException e) {
+                            loginFailure(1);
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
         super.onActivityCreated(savedInstanceState);

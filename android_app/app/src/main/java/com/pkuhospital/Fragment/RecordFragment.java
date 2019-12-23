@@ -5,22 +5,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.pkuhospital.Bean.Label;
-import com.pkuhospital.Bean.LabelAdapter;
+
 import com.pkuhospital.R;
 import com.pkuhospital.Utils.GlobalVar;
 import com.pkuhospital.Utils.HttpUtil;
@@ -29,8 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -45,7 +39,7 @@ public class RecordFragment extends Fragment {
     private static final String TAG = "RecordFragment";
 
     private Context mContext;
-    private List<Label> recordInfo = new LinkedList<>();//这里必须分配空间，不能是null
+//    private List<Label> recordInfo = new LinkedList<>();//这里必须分配空间，不能是null
 
     private View view;
     private LinearLayout recordLayout;
@@ -162,7 +156,7 @@ public class RecordFragment extends Fragment {
             }
         }else{
             recordLayout.setVisibility(View.GONE);
-            Toast.makeText(mContext,"尚未登录",Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext,"用户未登录",Toast.LENGTH_SHORT).show();
         }
         super.onResume();
     }
