@@ -1,0 +1,11 @@
+/* pages/Advices/Advices.wxss */
+textarea{
+  border: 1px solid grey;
+  margin: 10px 30px;
+}
+
+button{
+  margin-top: 30px;
+  margin-left: 30px;
+  margin-right: 40px;
+}

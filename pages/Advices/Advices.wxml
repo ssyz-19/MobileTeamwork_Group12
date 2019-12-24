@@ -1,0 +1,4 @@
+<!--pages/Advices/Advices.wxml-->
+<!-- <input value="请输入您的意见或建议"></input> -->
+<textarea value="请输入您的意见或建议"></textarea>
+<button type="primary" bindtap="advice">提交</button>

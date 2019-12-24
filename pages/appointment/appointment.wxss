@@ -1,0 +1,21 @@
+/* pages/appointment/appointment.wxss */
+.picker{
+    
+    padding: 13px;
+    background-color: #f2f2f2
+}
+.imagesize{
+height:100%;
+width: 100%;
+margin-left: 40rpx;
+ 
+}
+.divLine{
+ background: rgba(218, 224, 227, 0.849);
+ width: 100%;
+ height: 3rpx;
+}
+
+.loginBtn{
+  margin-top: 100rpx;
+}

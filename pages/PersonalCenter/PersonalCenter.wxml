@@ -1,0 +1,20 @@
+<!--pages/PersonalCenter/PersonalCenter.wxml-->
+
+  <view class='imagesize'>
+
+  <image src="../images/record.png" class='in-image'  >
+
+  </image>
+</view>
+
+<navigator url="/pages/About/About">
+<image src="../images/about.png" class='about'></image>
+关于我们</navigator>
+ <view class="divLine1"></view>
+<navigator url="/pages/Advices/Advices">
+<image src="../images/advices.png" class='advice'></image>
+意见反馈</navigator>
+ <view class="divLine2"></view>
+<button type="primary"  disabled="{{disabled}}" bindtap="register">{{editText}}</button>
+
+

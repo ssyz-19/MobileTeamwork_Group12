@@ -1,0 +1,29 @@
+/* pages/record/record.wxss */
+.record{
+   padding: 13px;
+    background-color: #f2f2f2
+}
+.title{
+  background-color:  #f2f2f2;
+  margin-top: 50rpx;
+  margin-left: 30rpx;
+}
+.in-image{
+  margin-left: 40rpx;
+}
+/* 横着的分割View样式 */
+/*分割线样式*/
+.divLine1{
+ background: rgba(218, 224, 227, 0.849);
+ width: 100%;
+ height: 3rpx;
+}
+.divLine2{
+ background: rgba(218, 224, 227, 0.849);
+ width: 100%;
+ height: 3rpx;
+}
+
+.loginBtnView{
+  margin-top: 100rpx;
+}

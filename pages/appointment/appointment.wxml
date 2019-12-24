@@ -1,0 +1,27 @@
+<!--pages/appointment/appointment.wxml-->
+
+<view class='imagesize'>
+
+  <image src="../images/uihospital.png" class='in-image'    >
+
+  </image>
+
+</view>
+
+<picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+　　<view class="picker">
+      选择科室和医生：{{multiArray[0][multiIndex[0]]}} > {{multiArray[1][multiIndex[1]]}}
+    </view>
+</picker>
+ <view class="divLine"></view>
+<view class="section__title"></view>
+  <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+    <view class="picker">
+      选择时间：{{array[index]}}
+    </view>
+  </picker>
+  <button class="loginBtn" type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="login">{{editText}}</button>
+  <view>{{information}}</view>
+  <view>{{rec1}}</view>
+  <view>{{rec2}}</view>
+  <view>{{rec3}}</view>

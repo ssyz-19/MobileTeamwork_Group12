@@ -1,0 +1,18 @@
+<!--pages/record/record.wxml-->
+<view class='imagesize'>
+
+  <image src="../images/record.png" class='in-image'  >
+
+  </image>
+</view>
+<text class='title'>预约结果</text>
+<view class='record'>
+<view>预约时间：{{daterecord}}</view>
+ <view class="divLine1"></view>
+<view>预约科室：{{sectionrecord}}</view>
+<view class="divLine2"></view>
+<view>预约医生：{{doctorrecord}}</view>
+</view>
+<view class="loginBtnView">  
+      <button class="loginBtn" size="{{primarySize}}"  form-type='submit' disabled='{{disabled}}' bindtap="cancel">{{editText}}</button>  
+    </view>

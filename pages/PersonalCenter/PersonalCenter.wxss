@@ -1,0 +1,31 @@
+/* pages/PersonalCenter/PersonalCenter.wxss */
+button{
+  margin-top: 60px;
+}
+
+navigator{
+  margin-right: 30rpx;
+}
+.imagesize{
+height:100%;
+width: 100%;
+margin-left: 40rpx;
+}
+.about{
+  width: 30rpx;
+  height: 30rpx;
+}
+.advice{
+  width: 30rpx;
+  height: 30rpx;
+}
+.divLine1{
+ background: rgba(218, 224, 227, 0.849);
+ width: 100%;
+ height: 3rpx;
+}
+.divLine2{
+ background: rgba(218, 224, 227, 0.849);
+ width: 100%;
+ height: 3rpx;
+}
