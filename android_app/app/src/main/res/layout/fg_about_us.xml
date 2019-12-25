@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="#fff"
+    android:theme="@style/ToolbarStyle">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,9 +17,34 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:lineSpacingExtra="5dp"
-            android:textSize="18sp"
             android:text="@string/about_us_text"
-            android:textColor="@color/text_yellow" />
+            android:textColor="@color/bg_black"
+            android:textSize="18sp" />
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/drawerIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="0dp"
+            android:gravity="center_vertical"
+            android:src="@mipmap/menu_32" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="5dp"
+            android:text="关于我们"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
 </LinearLayout>

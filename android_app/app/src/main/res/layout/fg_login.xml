@@ -3,34 +3,71 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
+
+    <ImageView
+        android:layout_width="274dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:src="@mipmap/peking_univers_words" />
+
     <EditText
         android:id="@+id/edit_stu_id"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="200dp"
-        android:layout_width="match_parent"
+        android:layout_width="367dp"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:hint="@string/edit_text_student_id"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginRight="40dp"
+        android:hint="@string/edit_text_student_id"
+        android:maxLines="1" />
 
     <EditText
         android:id="@+id/edit_password"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_width="match_parent"
+        android:layout_width="369dp"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:hint="@string/edit_text_password"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="40dp"
+        android:hint="@string/edit_text_password"
+        android:maxLines="1" />
 
     <Button
-        android:id="@+id/button_login"
-        android:layout_width="wrap_content"
+        android:id="@+id/sign_in_button"
+        android:theme="@style/red_button_style"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:text="登录"
-        android:textSize="20sp"/>
+        android:onClick="login"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-120dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_remember_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:button="@drawable/selector_checkbox"
+            android:text="记住密码"
+            android:textSize="15sp" />
+
+        <CheckBox
+            android:id="@+id/cb_auto_login"
+            android:layout_width="0dp"
+            android:button="@drawable/selector_checkbox"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="自动登录"
+            android:textSize="15sp" />
+    </LinearLayout>
 
 </LinearLayout>

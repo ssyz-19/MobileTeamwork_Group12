@@ -6,15 +6,35 @@
     <color name="bg_gray">#00F1F1F1</color>
     <color name="transparent">#00FFFFFF</color>
 
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary1">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
     <color name="text_gray">#8D7A71</color>
     <color name="text_white">#FFFFFF</color>
     <color name="text_yellow">#FFC800</color>
-    <color name="text_topbar">#694E42</color>
+    <color name="text_topbar">#694E42</color>*/
     <color name="div_white">#E5E5E5</color>
     <color name="div_gray">#BBBABA</color>
+    <color name="bgGainsboro">#DCDCDC</color>
 
+    <color name="colorPrimary">#94070A</color><!--北大红-->
+    <color name="colorPrimary2">#3F51B5</color>
+
+
+
+    <color name="colorLightCoffee">@color/md_brown_500</color>
+    <color name="colorDarkCoffee">@color/md_brown_700</color>
+    <color name="colorAccent3">@color/md_deep_orange_500</color>
+    <color name="blue">#5677fc</color>
+    <color name="red">#e51c23</color>
+    <color name="green">#259b24</color>
+    <color name="yellow">#ffeb3b</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="grey">#515151</color>
+    <color name="themeColor">#ffce3d3a</color>
+    <color name="toolbarTextColor">#ffffffff</color>
+    <color name="normalBackground">#fff2f4f5</color>
+    <color name="toolbarSubTextColor">#ffd4d4d4</color>
 </resources>
