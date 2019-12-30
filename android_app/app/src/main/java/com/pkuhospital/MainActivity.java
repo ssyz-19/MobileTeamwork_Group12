@@ -1,13 +1,13 @@
 package com.pkuhospital;
 
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private FragmentManager fManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         fManager = getSupportFragmentManager();
         bindViews();
+        checkIn();
         txt_appointment.performClick();   //模拟一次点击，既进去后选择第一项
     }
 
@@ -83,12 +85,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(fgPerCenter != null)fragmentTransaction.hide(fgPerCenter);
     }
 
+    //检查上次退出的时候是否是登录状态，若已登录则不用重新登录
+    private void checkIn(){
+        SharedPreferences pref = this.getSharedPreferences("login",MODE_PRIVATE);
+        boolean invalid = pref.getBoolean("invalid",false);
+        if(invalid){
+            GlobalVar.invertWhetherUserSignIn();
+            GlobalVar.setStuId(pref.getString("username",""));
+        }
+    }
 
     @Override
     public void onClick(View v) {
         FragmentTransaction fTransaction = fManager.beginTransaction();
         hideAllFragment(fTransaction);
-        RelativeLayout topLabel = (RelativeLayout)findViewById(R.id.ly_top_bar);
+        RelativeLayout topLabel = findViewById(R.id.ly_top_bar);
         switch (v.getId()){
             case R.id.txt_appointment:
                 setSelected();

@@ -32,7 +32,7 @@ import okhttp3.Response;
 
 /**
  * 挂号记录页面对应的碎片
- * @author 杨洲
+ * @author yangzhou
  * @time 2019.12.6
  */
 public class RecordFragment extends Fragment {
@@ -148,9 +148,9 @@ public class RecordFragment extends Fragment {
                 String time = pref.getString("time","");
 
                 recordLayout.setVisibility(View.VISIBLE);
-                doctorNameText.setText(doctorName);
-                doctorInfoText.setText(doctorInfo);
-                appointTimeText.setText(time);
+                doctorNameText.setText(getResources().getString(R.string.appoint_doctor)+doctorName);
+                doctorInfoText.setText(getResources().getString(R.string.doctor_info)+doctorInfo);
+                appointTimeText.setText(getResources().getString(R.string.appoint_time)+time);
             }else{
                 recordLayout.setVisibility(View.GONE);
             }

@@ -1,8 +1,10 @@
 package com.pkuhospital.Fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.ConditionVariable;
+import android.provider.Settings;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,6 +83,11 @@ public class LoginFragment extends Fragment {
                             if(status&&!GlobalVar.isWhetherUserSignIn()){ //改为登录状态
                                 GlobalVar.invertWhetherUserSignIn();
                                 GlobalVar.setStuId(inputStuId);
+                                SharedPreferences.Editor editor = getActivity().getSharedPreferences("login",
+                                        Context.MODE_PRIVATE).edit();   //将登录信息存入缓存
+                                editor.putString("username", GlobalVar.getStuId());
+                                editor.putBoolean("invalid",true);
+                                editor.apply();
                                 getActivity().finish();
                             }else{
                                 loginFailure(0);

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -107,6 +108,11 @@ public class PerCenterFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             GlobalVar.invertWhetherUserSignIn();  //更改登录状态
+                            SharedPreferences.Editor editor = getActivity().getSharedPreferences(
+                                    "login",Context.MODE_PRIVATE
+                            ).edit();    //修改登录缓存
+                            editor.putBoolean("invalid",false);
+                            editor.apply();
                             registerButton.setText("用户登录");
                         }
                     });

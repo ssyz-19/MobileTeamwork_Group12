@@ -7,9 +7,12 @@
     <string name="tab_menu_patient_info">就诊人</string>
     <string name="tab_menu_personal_center">个人中心</string>
 
-    <string name="about_us_text">\t\t\t\t\t\t\tPKUHospital预约挂号app是北京大学医院免费预约挂号平台，设有内科、外科、妇科、儿科、急诊科、眼科、耳鼻喉科、皮肤科、麻醉科、中医科、针灸科、理疗科、心理咨询治疗中心、预防保健科、医学美容门诊等一线临床科室，提供号源查询、预约挂号、专家简介评分等服务。为北京大学校内学生及教职工人员到校医院就诊提供了更便捷更经济的就医通道，充分体现互联网+医疗的创新优势。</string>
+    <string name="about_us_text">\t\t\t\t\tPKUHospital预约挂号app是北京大学医院免费预约挂号平台，设有内科、外科、妇科、儿科、急诊科、眼科、耳鼻喉科、皮肤科、麻醉科、中医科、针灸科、理疗科、心理咨询治疗中心、预防保健科、医学美容门诊等一线临床科室，提供号源查询、预约挂号、专家简介评分等服务。为北京大学校内学生及教职工人员到校医院就诊提供了更便捷更经济的就医通道，充分体现互联网+医疗的创新优势。</string>
     <string name="edit_text_student_id">学号</string>
     <string name="edit_text_password">密码</string>
 
     <string name="cancel_appointment">取消预约</string>
+    <string name="appoint_doctor">预约医生:</string>
+    <string name="doctor_info">医生信息:</string>
+    <string name="appoint_time">预约时间:</string>
 </resources>

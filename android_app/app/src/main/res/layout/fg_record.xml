@@ -14,12 +14,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"/>
 
-        <View
-            android:id="@+id/div_line"
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:layout_below="@+id/personal_center_list"
-            android:background="@color/div_gray"/>
+<!--        <View-->
+<!--            android:id="@+id/div_line"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="2px"-->
+<!--            android:layout_below="@+id/personal_center_list"-->
+<!--            android:background="@color/div_gray"/>-->
     </RelativeLayout>
 
     <include layout="@layout/appointment_record"/>

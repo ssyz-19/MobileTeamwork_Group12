@@ -17,8 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@color/text_yellow"
-            android:textSize="20sp"/>
+            android:textColor="@color/text_topbar"
+            android:textSize="18sp"/>
         <!-- 相对于左边框距离10dp，又和父控件对齐是什么操作？ -->
         <Button
             android:id="@+id/back_button"
