@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="fragment update error"
-            android:textColor="@color/text_yellow"
+            android:background="@color/colorPrimary2"
+            android:textColor="@color/text_white"
             android:textSize="20sp"/>
 
     </RelativeLayout>
