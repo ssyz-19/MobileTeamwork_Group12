@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-
 import com.pkuhospital.R;
 import com.pkuhospital.Utils.GlobalVar;
 import com.pkuhospital.Utils.HttpUtil;
@@ -152,6 +151,7 @@ public class RecordFragment extends Fragment {
                 doctorInfoText.setText(getResources().getString(R.string.doctor_info)+doctorInfo);
                 appointTimeText.setText(getResources().getString(R.string.appoint_time)+time);
             }else{
+                //这边可以加一个post请求来进行同步，待完成
                 recordLayout.setVisibility(View.GONE);
             }
         }else{
